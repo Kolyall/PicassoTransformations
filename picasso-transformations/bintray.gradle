@@ -21,8 +21,8 @@ ext {
 
     libraryDescription = 'A wrapper for picasso transformations on Android'
 
-    siteUrl = 'https://github.com/Kolyall/picasso-transformations'
-    gitUrl = 'https://github.com/Kolyall/picasso-transformations.git'
+    siteUrl = 'https://github.com/Kolyall/PicassoTransformations'
+    gitUrl = 'https://github.com/Kolyall/PicassoTransformations.git'
 
     developerId = 'nickunuchek'
     developerName = 'Nick Unuchek'
