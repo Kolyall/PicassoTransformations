@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.annotation.IntRange;
 
 import com.squareup.picasso.Transformation;
 
@@ -21,7 +22,7 @@ public class ShadeTransform  implements Transformation {
      *
      * @param alpha     the alpha shade to apply
      */
-    public ShadeTransform(int alpha){
+    public ShadeTransform(@IntRange(from = 0, to=255) int alpha){
         // Clamp the alpha value to 0..255
         mAlpha = Math.max(0, Math.min(255, alpha));
     }

@@ -1,10 +1,14 @@
 package com.utils.picasso.transformations;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.v4.content.ContextCompat;
 
 import com.squareup.picasso.Transformation;
 
@@ -17,10 +21,10 @@ public class GlowTransform implements Transformation {
     int margin;
     @ColorInt int glowColor;
 
-    public GlowTransform(int glowRadius, int margin, int glowColor) {
-        this.glowRadius = glowRadius;
-        this.margin = margin;
-        this.glowColor = glowColor;
+    public GlowTransform(Context context,@DimenRes int glowRadius, @DimenRes int margin, @ColorRes int glowColor) {
+        this.glowRadius = context.getResources().getDimensionPixelSize(glowRadius);
+        this.margin = context.getResources().getDimensionPixelSize(margin);
+        this.glowColor = ContextCompat.getColor(context,glowColor);
     }
 
     @Override
