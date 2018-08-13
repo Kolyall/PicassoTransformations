@@ -23,6 +23,9 @@ android {
         versionCode appVersionCode
         versionName appVersionName
 
+        renderscriptTargetApi 28
+        renderscriptSupportModeEnabled true
+
     }
 
     buildTypes {
@@ -34,13 +37,18 @@ android {
 
 }
 
+////added because of gradlew install is fall with error: cannot find symbol  annotations
+configurations {
+    javadocDeps
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     compileOnly         "org.projectlombok:lombok:1.16.20"
     annotationProcessor "org.projectlombok:lombok:1.16.20"
 
-    implementation "com.android.support:support-compat:28.0.0-rc01"
+    implementation "com.android.support:support-compat:28.0.0-alpha3"
     implementation "javax.annotation:jsr250-api:1.0"
     implementation "com.android.support:support-annotations:28.0.0-rc01"
 
@@ -48,6 +56,33 @@ dependencies {
     api 'jp.wasabeef:picasso-transformations:2.1.2'
     // If you want to use the GPU Filters
     api 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+}
+
+////added because of gradlew install is fall with error: cannot find symbol  annotations
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+    options.addStringOption('Xwerror', '-quiet')
+}
+
+////added because of gradlew install is fall with error: cannot find symbol  annotations
+tasks.whenTaskAdded { task ->
+    if (task.name == 'javadoc') {
+        task.configure {
+            classpath += configurations.javadocDeps
+            source = android.sourceSets.main.java.srcDirs
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+            classpath += files("build/generated/source/r/release")
+            classpath += files("build/generated/source/buildConfig/release")
+        }
+    }
+}
+
+afterEvaluate {
+    javadoc.classpath += files(android.libraryVariants.collect { variant ->
+        variant.javaCompile.classpath.files
+    })
 }
 
 // Place it at the end of the file
