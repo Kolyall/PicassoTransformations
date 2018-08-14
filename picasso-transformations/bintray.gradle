@@ -15,6 +15,7 @@ ext {
 
     publishedGroupId = 'com.github.kolyall'//only this
     artifact = 'picasso-transformations'//should be the same as module name
+    artifactLocal = 'picasso-transformations'//should be the same as module name
     libraryVersion = appVersionName
 
     libraryName = 'picasso-transformations'
