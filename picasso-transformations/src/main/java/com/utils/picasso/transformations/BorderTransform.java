@@ -14,6 +14,12 @@ import com.squareup.picasso.Transformation;
 public class BorderTransform implements Transformation {
 
     private int mBorderColor;
+    private int mBorderSize;
+
+    public BorderTransform(@ColorInt int borderColor, int borderSize) {
+        this.mBorderColor = borderColor;
+        this.mBorderSize = borderSize;
+    }
 
     public BorderTransform(@ColorInt int borderColor) {
         mBorderColor = borderColor;
@@ -25,9 +31,9 @@ public class BorderTransform implements Transformation {
 
     @Override
     public Bitmap transform(Bitmap source) {
-        int borderSize = Math.max(source.getWidth()/7,source.getHeight()/7);
-        int width = source.getWidth() + borderSize*2;
-        int height = source.getHeight() + borderSize*2;
+        int borderSize = mBorderSize == 0 ? Math.max(source.getWidth() / 7, source.getHeight() / 7) / 4 : this.mBorderSize;
+        int width = source.getWidth() + borderSize * 2;
+        int height = source.getHeight() + borderSize * 2;
         Bitmap out = Bitmap.createBitmap(width, height, source.getConfig());
         Canvas canvas = new Canvas(out);
         canvas.drawColor(mBorderColor);
@@ -41,6 +47,6 @@ public class BorderTransform implements Transformation {
 
     @Override
     public String key() {
-        return "BorderTransform:"+mBorderColor;
+        return "BorderTransform:" + mBorderColor+":"+mBorderSize;
     }
 }
