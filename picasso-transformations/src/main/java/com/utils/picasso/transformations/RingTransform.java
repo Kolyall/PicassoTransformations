@@ -9,18 +9,22 @@ import android.graphics.Rect;
 
 import com.squareup.picasso.Transformation;
 
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
-@Accessors(prefix = "m")
 public class RingTransform implements Transformation {
 
     private static final int DEFAULT_COLOR = Color.WHITE;
     private static final float DEFAULT_STROKE_PERCENT = 0.04f;
 
-    @Setter private int mColor = DEFAULT_COLOR;
+     private int mColor = DEFAULT_COLOR;
     private float mStrokePercent;
-    @Setter private float mStrokeSize = 0;
+     private float mStrokeSize = 0;
+
+    public void setColor(int color) {
+        mColor = color;
+    }
+
+    public void setStrokeSize(float strokeSize) {
+        mStrokeSize = strokeSize;
+    }
 
     public RingTransform() {
         this(DEFAULT_COLOR, DEFAULT_STROKE_PERCENT);

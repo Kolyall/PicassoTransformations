@@ -6,11 +6,10 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
-import androidx.annotation.ColorInt;
 
 import com.squareup.picasso.Transformation;
 
-import lombok.Setter;
+import androidx.annotation.ColorInt;
 
 /**
  * Created by User on 06.05.2017.
@@ -18,13 +17,21 @@ import lombok.Setter;
 
 public class GradientTransformation  implements Transformation {
 
-    @Setter @ColorInt int startColor = Color.TRANSPARENT;
-    @Setter @ColorInt int endColor = Color.argb(240,0,0,0);
+     @ColorInt int startColor = Color.TRANSPARENT;
+     @ColorInt int endColor = Color.argb(240,0,0,0);
 
     public GradientTransformation() {
     }
 
     public GradientTransformation(@ColorInt int endColor) {
+        this.endColor = endColor;
+    }
+
+    public void setStartColor(int startColor) {
+        this.startColor = startColor;
+    }
+
+    public void setEndColor(int endColor) {
         this.endColor = endColor;
     }
 
