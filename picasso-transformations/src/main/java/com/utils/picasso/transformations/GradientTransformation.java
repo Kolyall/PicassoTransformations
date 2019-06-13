@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 import com.squareup.picasso.Transformation;
 

@@ -1,22 +1,11 @@
 apply plugin: 'com.android.library'
-apply from: 'bintray.gradle'
-apply from: 'mavenCustom.gradle'
+apply from: 'https://raw.githubusercontent.com/Kolyall/MavenPublish/master/appVersion.gradle'
+
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "28.0.3"
 
-    def propertiesFile = file('properties/version/version.properties')
-    def appVersionCode = 1;
-    def appVersionName = "1.0";
-    if (propertiesFile.canRead()) {
-        Properties properties = new Properties()
-        properties.load(new FileInputStream(propertiesFile))
-        appVersionCode = Integer.parseInt(properties['VERSION_CODE']).intValue();
-        appVersionName = String.valueOf(properties['VERSION_NAME']);
-    } else {
-        throw new Exception("Could not read properties/version/version.properties!")
-    }
 
     defaultConfig {
         minSdkVersion 19
@@ -49,8 +38,8 @@ dependencies {
     compileOnly         "org.projectlombok:lombok:1.16.20"
     annotationProcessor "org.projectlombok:lombok:1.16.20"
 
-    implementation "com.android.support:support-compat:28.0.0"
-    implementation "com.android.support:support-annotations:28.0.0"
+    implementation 'androidx.core:core:1.0.2'
+    implementation 'androidx.annotation:annotation:1.1.0'
 
     implementation "javax.annotation:jsr250-api:1.0"
 
@@ -62,33 +51,20 @@ dependencies {
     api 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 }
 
-////added because of gradlew install is fall with error: cannot find symbol  annotations
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
-    options.addStringOption('Xwerror', '-quiet')
-}
-
-////added because of gradlew install is fall with error: cannot find symbol  annotations
-tasks.whenTaskAdded { task ->
-    if (task.name == 'javadoc') {
-        task.configure {
-            classpath += configurations.javadocDeps
-            source = android.sourceSets.main.java.srcDirs
-            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-            classpath += files("build/generated/source/r/release")
-            classpath += files("build/generated/source/buildConfig/release")
-        }
+// Place it at the end of the file
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
     }
 }
-
-afterEvaluate {
-    javadoc.classpath += files(android.libraryVariants.collect { variant ->
-        variant.javaCompile.classpath.files
-    })
+if (project.rootProject.file('local.properties').exists()) {
+    apply from: 'https://raw.githubusercontent.com/Kolyall/MavenPublish/master/libraryInfo.gradle'
+    apply from: 'https://raw.githubusercontent.com/Kolyall/MavenPublish/master/artifactsSetup.gradle'
+    apply from: 'https://raw.githubusercontent.com/Kolyall/MavenPublish/master/installSetup.gradle'
+    apply from: 'https://raw.githubusercontent.com/Kolyall/MavenPublish/master/bintraySetup.gradle'
 }
-
-// Place it at the end of the file
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
